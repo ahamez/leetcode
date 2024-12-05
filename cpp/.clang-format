@@ -1,0 +1,9 @@
+---
+BasedOnStyle: Chromium
+BreakBeforeBraces: Allman
+ColumnLimit: 120
+Language: Cpp
+PackConstructorInitializers: Never
+---
+Language: Json
+BasedOnStyle: llvm

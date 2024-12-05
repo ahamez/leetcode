@@ -1,0 +1,58 @@
+# 2109 - Adding Spaces to a String
+
+```elixir
+Mix.install([])
+
+ExUnit.start(auto_run: false)
+```
+
+## Solution
+
+https://leetcode.com/problems/adding-spaces-to-a-string
+
+```elixir
+defmodule Solution do
+  @spec add_spaces(s :: String.t(), spaces :: [integer]) :: String.t()
+  def add_spaces(s, spaces) do
+    do_add_spaces(s, [], 0, spaces)
+  end
+
+  defp do_add_spaces(graphems, graphems_with_spaces, _current_index, _spaces = []) do
+    :binary.list_to_bin(Enum.reverse(graphems_with_spaces) ++ graphems)
+  end
+
+  defp do_add_spaces(graphems, graphems_with_spaces, current_index, spaces) do
+    {next_graphem, graphems_rest} = String.next_grapheme(graphems)
+    [next_space | spaces_rest] = spaces
+
+    if next_space == current_index do
+      do_add_spaces(
+        graphems_rest,
+        [next_graphem, " " | graphems_with_spaces],
+        current_index + 1,
+        spaces_rest
+      )
+    else
+      do_add_spaces(
+        graphems_rest,
+        [next_graphem | graphems_with_spaces],
+        current_index + 1,
+        spaces
+      )
+    end
+  end
+end
+```
+
+```elixir
+defmodule TestFindSchedule do
+  use ExUnit.Case, async: false
+
+  test "1" do
+    assert Solution.add_spaces("LeetcodeHelpsMeLearn", [8, 13, 15]) ==
+             "Leetcode Helps Me Learn"
+  end
+end
+
+ExUnit.run()
+```

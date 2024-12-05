@@ -1,0 +1,44 @@
+# 819 - Most Common Word
+
+```elixir
+Mix.install([])
+
+ExUnit.start(auto_run: false)
+```
+
+## Solution
+
+https://leetcode.com/problems/most-common-word
+
+```elixir
+defmodule Solution do
+  @spec most_common_word(paragraph :: String.t(), banned :: [String.t()]) :: String.t()
+  def most_common_word(paragraph, banned) do
+    banned = Enum.map(banned, &String.downcase/1)
+
+    paragraph
+    |> String.downcase()
+    |> String.splitter([" ", ",", ".", "!", "?", ";", "'"] ++ banned, trim: true)
+    |> Enum.frequencies()
+    |> Stream.map(fn {word, count} -> {count, word} end)
+    |> Enum.sort(:desc)
+    |> List.first()
+    |> elem(1)
+  end
+end
+```
+
+```elixir
+defmodule TestSolution do
+  use ExUnit.Case, async: false
+
+  test "1" do
+    assert Solution.most_common_word(
+             "Bob hit a ball, the hit BALL flew far after it was hit.",
+             ["hit"]
+           ) == "ball"
+  end
+end
+
+ExUnit.run()
+```

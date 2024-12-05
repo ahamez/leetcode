@@ -1,0 +1,129 @@
+# 1229 - Meeting Scheduler
+
+```elixir
+Mix.install([])
+
+ExUnit.start(auto_run: false)
+```
+
+## Solution
+
+https://leetcode.com/problems/meeting-scheduler
+
+```elixir
+defmodule Solution do
+  @spec min_available_duration(slots1 :: [[integer]], slots2 :: [[integer]], duration :: integer) ::
+          [integer]
+  def min_available_duration(slots1, slots2, duration) do
+    do_min_available_duration(sort_slots(slots1), sort_slots(slots2), duration)
+  end
+
+  defp sort_slots(slots) do
+    Enum.sort(slots)
+  end
+
+  defp do_min_available_duration(_slots1 = [], _slots2, _duration), do: []
+  defp do_min_available_duration(_slots1, _slots2 = [], _duration), do: []
+
+  defp do_min_available_duration(
+         slots1 = [s1 | slots1_rest],
+         slots2 = [s2 | slots2_rest],
+         duration
+       ) do
+    [s1_start, s1_end] = s1
+    [s2_start, s2_end] = s2
+
+    cond do
+      s1_end <= s2_start ->
+        do_min_available_duration(slots1_rest, slots2, duration)
+
+      s1_start >= s2_end ->
+        do_min_available_duration(slots1, slots2_rest, duration)
+
+      true ->
+        s_start = max(s1_start, s2_start)
+        s_end = min(s1_end, s2_end)
+
+        cond do
+          s_end - s_start >= duration ->
+            [s_start, s_start + duration]
+
+          s1_start < s2_start and s1_end < s2_end ->
+            do_min_available_duration(slots1_rest, slots2, duration)
+
+          s1_start < s2_start and s1_end > s2_end ->
+            do_min_available_duration(slots1, slots2_rest, duration)
+
+          s2_start < s1_start and s2_end > s1_end ->
+            do_min_available_duration(slots1_rest, slots2, duration)
+
+          s1_start > s2_start ->
+            do_min_available_duration(slots1, slots2_rest, duration)
+
+          true ->
+            do_min_available_duration(slots1_rest, slots2_rest, duration)
+        end
+    end
+  end
+end
+```
+
+```elixir
+defmodule TestSolution do
+  use ExUnit.Case, async: false
+
+  test "1" do
+    assert Solution.min_available_duration(
+             [[10, 50], [60, 120], [140, 210]],
+             [[0, 15], [60, 70]],
+             8
+           ) == [60, 68]
+  end
+
+  test "2" do
+    assert Solution.min_available_duration(
+             [[10, 50], [60, 120], [140, 210]],
+             [[0, 15], [60, 70]],
+             12
+           ) == []
+  end
+
+  test "3" do
+    assert Solution.min_available_duration(
+             [[10, 60]],
+             [[12, 17], [21, 50]],
+             8
+           ) == [21, 29]
+  end
+
+  test "4" do
+    assert Solution.min_available_duration(
+             [[10, 12], [15, 25]],
+             [[0, 100]],
+             8
+           ) == [15, 23]
+  end
+
+  test "5" do
+    assert Solution.min_available_duration(
+             [
+               [216_397_070, 363_167_701],
+               [98_730_764, 158_208_909],
+               [441_003_187, 466_254_040],
+               [558_239_978, 678_368_334],
+               [683_942_980, 717_766_451]
+             ],
+             [
+               [50_490_609, 222_653_186],
+               [512_711_631, 670_791_418],
+               [730_229_023, 802_410_205],
+               [812_553_104, 891_266_775],
+               [230_032_010, 399_152_578]
+             ],
+             456_085
+           ) == [98_730_764, 99_186_849]
+  end
+end
+
+ExUnit.run()
+```

@@ -1,0 +1,55 @@
+# 2451 - Odd String Difference
+
+```elixir
+Mix.install([])
+
+ExUnit.start(auto_run: false)
+```
+
+## Solution
+
+https://leetcode.com/problems/odd-string-difference
+
+```elixir
+defmodule Solution do
+  @spec odd_string(words :: [String.t()]) :: String.t()
+  def odd_string(words) do
+    words
+    |> Stream.map(fn word -> {word, String.to_charlist(word)} end)
+    |> Enum.map(fn {word, charlist} -> {word, adjacent_difference(charlist)} end)
+    |> Enum.group_by(&elem(&1, 1), &elem(&1, 0))
+    |> Enum.find_value(fn
+      {_key, [word]} -> word
+      _ -> nil
+    end)
+  end
+
+  defp adjacent_difference(charlist) do
+    charlist
+    |> Enum.reduce({0, []}, fn x, {previous, acc} ->
+      {x, [x - previous | acc]}
+    end)
+    |> elem(1)
+    |> Enum.reverse()
+    |> Enum.drop(1)
+  end
+end
+```
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+defmodule TestSolution do
+  use ExUnit.Case, async: false
+
+  test "1" do
+    assert Solution.odd_string(["adc", "wzy", "abc"]) == "abc"
+  end
+
+  test "2" do
+    assert Solution.odd_string(["aaa", "bob", "ccc", "ddd"]) == "bob"
+  end
+end
+
+ExUnit.run()
+```

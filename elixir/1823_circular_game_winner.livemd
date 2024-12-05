@@ -1,0 +1,45 @@
+# 1823 - Find the Winner of the Circular Game
+
+```elixir
+Mix.install([])
+
+ExUnit.start(auto_run: false)
+```
+
+## Solution
+
+https://leetcode.com/problems/find-the-winner-of-the-circular-game
+
+```elixir
+defmodule Solution do
+  @spec find_the_winner(n :: integer, k :: integer) :: integer
+  def find_the_winner(n, k) do
+    do_find_the_winner(Enum.to_list(1..n), n, k, _pos = 0)
+  end
+
+  defp do_find_the_winner(_circle = [winner], _n, _k, _pos), do: winner
+
+  defp do_find_the_winner(circle, n, k, pos) do
+    split_index = rem(k + pos - 1, n)
+
+    circle = List.delete_at(circle, split_index)
+    do_find_the_winner(circle, n - 1, k, split_index)
+  end
+end
+```
+
+```elixir
+defmodule TestSolution do
+  use ExUnit.Case, async: false
+
+  test "1" do
+    assert Solution.find_the_winner(5, 2) == 3
+  end
+
+  test "2" do
+    assert Solution.find_the_winner(6, 5) == 1
+  end
+end
+
+ExUnit.run()
+```

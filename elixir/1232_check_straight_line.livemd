@@ -1,0 +1,47 @@
+# 1232 - Check If It Is a Straight Line
+
+```elixir
+Mix.install([])
+
+ExUnit.start(auto_run: false)
+```
+
+## Solution
+
+https://leetcode.com/problems/check-if-it-is-a-straight-line
+
+```elixir
+defmodule Solution do
+  @spec check_straight_line(coordinates :: [[integer]]) :: boolean
+  def check_straight_line(coordinates) do
+    [[x1, y1], [x2, y2] | coordinates] = coordinates
+
+    cond do
+      x1 == x2 ->
+        Enum.all?(coordinates, fn [x, _y] -> x == x1 end)
+
+      true ->
+        a = (y1 - y2) / (x1 - x2)
+        b = y1 - a * x1
+
+        Enum.all?(coordinates, fn [x, y] -> y == a * x + b end)
+    end
+  end
+end
+```
+
+```elixir
+defmodule TestSolution do
+  use ExUnit.Case, async: false
+
+  test "1" do
+    assert Solution.check_straight_line([[1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7]]) == true
+  end
+
+  test "2" do
+    assert Solution.check_straight_line([[0, 0], [0, 1], [0, -1]]) == true
+  end
+end
+
+ExUnit.run()
+```

@@ -1,0 +1,78 @@
+# 322 - Coin Change
+
+```elixir
+Mix.install([])
+
+ExUnit.start(auto_run: false)
+```
+
+## Solution
+
+https://leetcode.com/problems/coin-change
+
+```elixir
+defmodule Solution do
+  @spec coin_change(coins :: [integer], total_amount :: integer) :: integer
+  def coin_change(coins, total_amount) do
+    cond do
+      total_amount == 0 ->
+        0
+
+      true ->
+        coins
+        |> Enum.reject(&(&1 > total_amount))
+        |> do_coin_changes(total_amount)
+    end
+  end
+
+  defp do_coin_changes(coins, total_amount) do
+    total_amount
+    |> init_dp()
+    |> compute_nb_of_coins_per_amount(coins, total_amount)
+    |> number_of_coins_for_amount(total_amount)
+  end
+
+  defp init_dp(total_amount) do
+    for a <- 1..total_amount,
+        into: %{0 => 0},
+        do: {a, :infinity}
+  end
+
+  defp compute_nb_of_coins_per_amount(dp, coins, total_amount) do
+    Enum.reduce(coins, dp, fn coin, dp ->
+      Enum.reduce(coin..total_amount, dp, fn amount, dp ->
+        # Don't use coin
+        dp_amount = Map.fetch!(dp, amount)
+
+        # Use coin
+        dp_amount_minus_coin = increment_coin_usage(Map.fetch!(dp, amount - coin))
+
+        Map.replace!(dp, amount, min(dp_amount, dp_amount_minus_coin))
+      end)
+    end)
+  end
+
+  defp increment_coin_usage(:infinity), do: :infinity
+  defp increment_coin_usage(coin), do: coin + 1
+
+  defp number_of_coins_for_amount(dp, amount) do
+    if dp[amount] == :infinity do
+      -1
+    else
+      dp[amount]
+    end
+  end
+end
+```
+
+```elixir
+defmodule TestSolution do
+  use ExUnit.Case, async: false
+
+  test "1" do
+    assert Solution.coin_change([1, 2, 5], 11) == 3
+  end
+end
+
+ExUnit.run()
+```

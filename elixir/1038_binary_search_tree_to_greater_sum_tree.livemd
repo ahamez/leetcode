@@ -1,0 +1,304 @@
+# 1038 - Binary Search Tree to Greater Sum Tree
+
+```elixir
+ExUnit.start(auto_run: false)
+```
+
+## Solution
+
+https://leetcode.com/problems/binary-search-tree-to-greater-sum-tree
+
+```elixir
+defmodule TreeNode do
+  @type t :: %__MODULE__{
+          val: integer,
+          left: TreeNode.t() | nil,
+          right: TreeNode.t() | nil
+        }
+  defstruct val: 0, left: nil, right: nil
+end
+```
+
+```elixir
+defmodule Solution do
+  @spec bst_to_gst(root :: TreeNode.t() | nil) :: TreeNode.t() | nil
+  def bst_to_gst(root) do
+    {node, _bubble} = do_bst_to_gst(root, 0)
+
+    node
+  end
+
+  defp do_bst_to_gst(nil, sum), do: {nil, sum}
+
+  defp do_bst_to_gst(%TreeNode{} = node, sum) do
+    {new_right_child, right_bubble} = do_bst_to_gst(node.right, sum)
+    new_val = right_bubble + node.val
+    {new_left_child, left_bubble} = do_bst_to_gst(node.left, new_val)
+
+    {
+      %TreeNode{
+        val: new_val,
+        left: new_left_child,
+        right: new_right_child
+      },
+      left_bubble
+    }
+  end
+end
+```
+
+<!-- livebook:{"reevaluate_automatically":true} -->
+
+```elixir
+defmodule TestSolution do
+  use ExUnit.Case, async: false
+
+  test "1" do
+    assert Solution.bst_to_gst(%TreeNode{}) == %TreeNode{}
+  end
+
+  test "2" do
+    assert Solution.bst_to_gst(%TreeNode{
+             val: 0,
+             left: nil,
+             right: %TreeNode{
+               val: 1
+             }
+           }) == %TreeNode{
+             val: 1,
+             left: nil,
+             right: %TreeNode{
+               val: 1
+             }
+           }
+  end
+
+  test "3" do
+    assert Solution.bst_to_gst(%TreeNode{
+             val: 1,
+             left: %TreeNode{
+               val: 0
+             },
+             right: nil
+           }) == %TreeNode{
+             val: 1,
+             left: %TreeNode{
+               val: 1
+             },
+             right: nil
+           }
+  end
+
+  test "4" do
+    assert Solution.bst_to_gst(%TreeNode{
+             val: 1,
+             left: %TreeNode{
+               val: 0
+             },
+             right: %TreeNode{
+               val: 2
+             }
+           }) == %TreeNode{
+             val: 3,
+             left: %TreeNode{
+               val: 3
+             },
+             right: %TreeNode{
+               val: 2
+             }
+           }
+  end
+
+  test "5" do
+    assert Solution.bst_to_gst(%TreeNode{
+             val: 6,
+             left: %TreeNode{
+               val: 5
+             },
+             right: %TreeNode{
+               val: 7,
+               right: %TreeNode{
+                 val: 8
+               }
+             }
+           }) == %TreeNode{
+             val: 21,
+             left: %TreeNode{
+               val: 26
+             },
+             right: %TreeNode{
+               val: 15,
+               right: %TreeNode{
+                 val: 8
+               }
+             }
+           }
+  end
+
+  test "6" do
+    assert Solution.bst_to_gst(%TreeNode{
+             val: 4,
+             right: %TreeNode{
+               val: 6,
+               left: %TreeNode{
+                 val: 5
+               },
+               right: %TreeNode{
+                 val: 7,
+                 right: %TreeNode{
+                   val: 8
+                 }
+               }
+             }
+           }) == %TreeNode{
+             val: 30,
+             right: %TreeNode{
+               val: 21,
+               left: %TreeNode{
+                 val: 26
+               },
+               right: %TreeNode{
+                 val: 15,
+                 right: %TreeNode{
+                   val: 8
+                 }
+               }
+             }
+           }
+  end
+
+  test "7" do
+    assert Solution.bst_to_gst(%TreeNode{
+             val: 4,
+             left: %TreeNode{
+               val: 1
+             },
+             right: %TreeNode{
+               val: 6,
+               left: %TreeNode{
+                 val: 5
+               },
+               right: %TreeNode{
+                 val: 7,
+                 right: %TreeNode{
+                   val: 8
+                 }
+               }
+             }
+           }) == %TreeNode{
+             val: 30,
+             left: %TreeNode{
+               val: 31
+             },
+             right: %TreeNode{
+               val: 21,
+               left: %TreeNode{
+                 val: 26
+               },
+               right: %TreeNode{
+                 val: 15,
+                 right: %TreeNode{
+                   val: 8
+                 }
+               }
+             }
+           }
+  end
+
+  test "8" do
+    assert Solution.bst_to_gst(%TreeNode{
+             val: 4,
+             left: %TreeNode{
+               val: 1,
+               left: %TreeNode{
+                 val: 0
+               }
+             },
+             right: %TreeNode{
+               val: 6,
+               left: %TreeNode{
+                 val: 5
+               },
+               right: %TreeNode{
+                 val: 7,
+                 right: %TreeNode{
+                   val: 8
+                 }
+               }
+             }
+           }) == %TreeNode{
+             val: 30,
+             left: %TreeNode{
+               val: 31,
+               left: %TreeNode{
+                 val: 31
+               }
+             },
+             right: %TreeNode{
+               val: 21,
+               left: %TreeNode{
+                 val: 26
+               },
+               right: %TreeNode{
+                 val: 15,
+                 right: %TreeNode{
+                   val: 8
+                 }
+               }
+             }
+           }
+  end
+
+  test "9" do
+    assert Solution.bst_to_gst(%TreeNode{
+             val: 4,
+             left: %TreeNode{
+               val: 1,
+               left: %TreeNode{
+                 val: 0
+               },
+               right: %TreeNode{
+                 val: 2
+               }
+             },
+             right: %TreeNode{
+               val: 6,
+               left: %TreeNode{
+                 val: 5
+               },
+               right: %TreeNode{
+                 val: 7,
+                 right: %TreeNode{
+                   val: 8
+                 }
+               }
+             }
+           }) == %TreeNode{
+             val: 30,
+             left: %TreeNode{
+               val: 33,
+               left: %TreeNode{
+                 val: 33
+               },
+               right: %TreeNode{
+                 val: 32
+               }
+             },
+             right: %TreeNode{
+               val: 21,
+               left: %TreeNode{
+                 val: 26
+               },
+               right: %TreeNode{
+                 val: 15,
+                 right: %TreeNode{
+                   val: 8
+                 }
+               }
+             }
+           }
+  end
+end
+
+ExUnit.run()
+```
