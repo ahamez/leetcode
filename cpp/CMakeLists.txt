@@ -16,6 +16,7 @@ add_executable(1071_greatest_common_divisor_of_strings 1071_greatest_common_divi
 add_executable(1207_unique_number_of_occurrences 1207_unique_number_of_occurrences.cc)
 add_executable(1452_favorite_company 1452_favorite_company.cc)
 add_executable(2451_odd_string_difference 2451_odd_string_difference.cc)
+add_executable(2981_longest_special_substring 2981_longest_special_substring.cc)
 
 add_custom_target(run)
 add_dependencies(run
@@ -25,7 +26,7 @@ add_dependencies(run
                 1071_greatest_common_divisor_of_strings
                 1207_unique_number_of_occurrences
                 1452_favorite_company
-                2451_odd_string_difference)
+                2981_longest_special_substring)
 add_custom_command(TARGET run POST_BUILD
                    COMMAND 211_word_data_structure
                    COMMAND 408_valid_word_abbreviation
@@ -33,4 +34,4 @@ add_custom_command(TARGET run POST_BUILD
                    COMMAND 1071_greatest_common_divisor_of_strings
                    COMMAND 1207_unique_number_of_occurrences
                    COMMAND 1452_favorite_company
-                   COMMAND 2451_odd_string_difference)
+                   COMMAND 2981_longest_special_substring)
