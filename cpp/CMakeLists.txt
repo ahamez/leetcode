@@ -9,6 +9,7 @@ add_compile_options(-fsanitize=address -fno-omit-frame-pointer -g)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
 add_compile_options(-Wall -Wextra -Wpedantic -Wunused -Werror)
 
+add_executable(160_linked_lists_intersections 160_linked_lists_intersections.cc)
 add_executable(211_word_data_structure 211_word_data_structure.cc)
 add_executable(408_valid_word_abbreviation 408_valid_word_abbreviation.cc)
 add_executable(622_circular_queue 622_circular_queue.cc)
@@ -20,6 +21,7 @@ add_executable(2981_longest_special_substring 2981_longest_special_substring.cc)
 
 add_custom_target(run)
 add_dependencies(run
+                160_linked_lists_intersections
                 211_word_data_structure
                 408_valid_word_abbreviation
                 622_circular_queue
@@ -28,6 +30,7 @@ add_dependencies(run
                 1452_favorite_company
                 2981_longest_special_substring)
 add_custom_command(TARGET run POST_BUILD
+                   COMMAND 160_linked_lists_intersections
                    COMMAND 211_word_data_structure
                    COMMAND 408_valid_word_abbreviation
                    COMMAND 622_circular_queue
