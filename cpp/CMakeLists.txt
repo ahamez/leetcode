@@ -9,6 +9,7 @@ add_compile_options(-fsanitize=address -fno-omit-frame-pointer -g)
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
 add_compile_options(-Wall -Wextra -Wpedantic -Wunused -Werror)
 
+add_executable(2_add_two_numbers 2_add_two_numbers.cc)
 add_executable(3_longest_substring_without_repeating_characters 3_longest_substring_without_repeating_characters.cc)
 add_executable(160_linked_lists_intersections 160_linked_lists_intersections.cc)
 add_executable(211_word_data_structure 211_word_data_structure.cc)
@@ -22,6 +23,7 @@ add_executable(2981_longest_special_substring 2981_longest_special_substring.cc)
 
 add_custom_target(run)
 add_dependencies(run
+  2_add_two_numbers
                 3_longest_substring_without_repeating_characters
                 160_linked_lists_intersections
                 211_word_data_structure
@@ -32,6 +34,7 @@ add_dependencies(run
                 1452_favorite_company
                 2981_longest_special_substring)
 add_custom_command(TARGET run POST_BUILD
+                   COMMAND 2_add_two_numbers
                    COMMAND 3_longest_substring_without_repeating_characters
                    COMMAND 160_linked_lists_intersections
                    COMMAND 211_word_data_structure
