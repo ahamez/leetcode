@@ -21,13 +21,13 @@ class Solution
                     std::for_each(cbegin(companies), cend(companies),
                                   [&mapping, &counter](const auto& company)
                                   {
-                                    if (mapping.find(company) == cend(mapping))
+                                    if (auto [it, inserted] = mapping.emplace(company, counter); inserted)
                                     {
-                                      mapping.emplace(company, counter);
                                       ++counter;
                                     }
                                   });
                   });
+
     auto favorite_companies_hash = std::vector<std::vector<std::size_t>>{};
     favorite_companies_hash.reserve(favoriteCompanies.size());
     std::transform(cbegin(favoriteCompanies), cend(favoriteCompanies), std::back_inserter(favorite_companies_hash),
