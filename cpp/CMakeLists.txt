@@ -22,6 +22,8 @@ add_executable(1452_favorite_company 1452_favorite_company.cc)
 add_executable(2451_odd_string_difference 2451_odd_string_difference.cc)
 add_executable(2981_longest_special_substring 2981_longest_special_substring.cc)
 
+add_executable(custom custom.cc)
+
 add_custom_target(run)
 add_dependencies(run
   2_add_two_numbers
