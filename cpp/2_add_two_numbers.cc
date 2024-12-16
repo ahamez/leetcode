@@ -1,7 +1,6 @@
 // https://leetcode.com/problems/add-two-numbers/description/
 
 #include <cassert>
-#include <iostream>
 
 struct ListNode
 {
