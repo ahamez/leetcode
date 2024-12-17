@@ -15,6 +15,7 @@ add_executable(160_linked_lists_intersections 160_linked_lists_intersections.cc)
 add_executable(211_word_data_structure 211_word_data_structure.cc)
 add_executable(408_valid_word_abbreviation 408_valid_word_abbreviation.cc)
 add_executable(622_circular_queue 622_circular_queue.cc)
+add_executable(876_linked_list_middle 876_linked_list_middle.cc)
 add_executable(1071_greatest_common_divisor_of_strings 1071_greatest_common_divisor_of_strings.cc)
 add_executable(1160_find_words 1160_find_words.cc)
 add_executable(1207_unique_number_of_occurrences 1207_unique_number_of_occurrences.cc)
@@ -32,6 +33,7 @@ add_dependencies(run
                 211_word_data_structure
                 408_valid_word_abbreviation
                 622_circular_queue
+                876_linked_list_middle
                 1071_greatest_common_divisor_of_strings
                 1160_find_words
                 1207_unique_number_of_occurrences
@@ -44,6 +46,7 @@ add_custom_command(TARGET run POST_BUILD
                    COMMAND 211_word_data_structure
                    COMMAND 408_valid_word_abbreviation
                    COMMAND 622_circular_queue
+                   COMMAND 876_linked_list_middle
                    COMMAND 1071_greatest_common_divisor_of_strings
                    COMMAND 1160_find_words
                    COMMAND 1207_unique_number_of_occurrences
