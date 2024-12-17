@@ -12,21 +12,21 @@ class Solution
     auto seen = std::array<decltype(cbegin(s)), 256>{};
     seen.fill(cend(s));
     auto longest = 0l;
-    auto l = cbegin(s);
+    auto window_left = cbegin(s);
 
-    for (auto r = cbegin(s); r != cend(s); ++r)
+    for (auto window_right = cbegin(s); window_right != cend(s); ++window_right)
     {
-      const auto current_char = *r;
-      if (seen[current_char] != cend(s) and seen[current_char] >= l)
+      const auto current_char = *window_right;
+      if (seen[current_char] != cend(s) and seen[current_char] >= window_left)
       {
-        l = seen[current_char] + 1;
+        window_left = seen[current_char] + 1;
       }
       else
       {
-        const auto substring_length = r - l + 1;
+        const auto substring_length = window_right - window_left + 1;
         longest = std::max(substring_length, longest);
       }
-      seen[current_char] = r;
+      seen[current_char] = window_right;
     }
     return longest;
   }
