@@ -1,7 +1,6 @@
 // https://leetcode.com/problems/middle-of-the-linked-list/description/
 
 #include <cassert>
-#include <iostream>
 
 struct ListNode
 {
@@ -85,14 +84,7 @@ class Solution
 int main()
 {
   const auto l0 = new ListNode{1, new ListNode{2, new ListNode{3, new ListNode{4}}}};
-
-  auto r = Solution{}.deleteMiddle(l0);
-  while (r)
-  {
-    std::cout << r->val << ", ";
-    r = r->next;
-  }
-  std::cout << std::endl;
+  Solution{}.deleteMiddle(l0);
 
   return 0;
 }
