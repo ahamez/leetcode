@@ -1,4 +1,4 @@
-// https://leetcode.com/problems/middle-of-the-linked-list/description/
+// https://leetcode.com/problems/middle-of-the-linked-list
 
 #include <cassert>
 
@@ -29,7 +29,27 @@ class Solution
   ListNode* middleNode(ListNode* head)
   {
     assert(head != nullptr);
-    return recurse(head, head);
+    // return recurse(head, head);
+
+    auto slow = head;
+    auto fast = head;
+
+    while (true)
+    {
+      if (fast->next == nullptr)
+      {
+        return slow;
+      }
+      else if (fast->next->next == nullptr)
+      {
+        return slow->next;
+      }
+
+      slow = slow->next;
+      fast = fast->next->next;
+    }
+
+    return slow;
   }
 
  private:
