@@ -15,33 +15,30 @@ class Solution
   {
     auto mapping = std::unordered_map<std::string, std::size_t>();
     auto counter = std::size_t{0};
-    std::for_each(cbegin(favoriteCompanies), cend(favoriteCompanies),
-                  [&](const auto& companies)
-                  {
-                    std::for_each(cbegin(companies), cend(companies),
-                                  [&mapping, &counter](const auto& company)
-                                  {
-                                    if (auto [it, inserted] = mapping.emplace(company, counter); inserted)
-                                    {
-                                      ++counter;
-                                    }
-                                  });
-                  });
+
+    for (const auto& companies : favoriteCompanies)
+    {
+      for (const auto& company : companies)
+      {
+        if (auto [it, inserted] = mapping.emplace(company, counter); inserted)
+        {
+          ++counter;
+        }
+      };
+    }
 
     auto favorite_companies_hash = std::vector<std::vector<std::size_t>>{};
     favorite_companies_hash.reserve(favoriteCompanies.size());
-    std::transform(cbegin(favoriteCompanies), cend(favoriteCompanies), std::back_inserter(favorite_companies_hash),
-                   [&](const auto& companies)
-                   {
-                     std::vector<std::size_t> company_hashes;
-                     company_hashes.reserve(companies.size());
-                     std::transform(cbegin(companies), cend(companies), std::back_inserter(company_hashes),
-                                    [&mapping](const auto& company) { return mapping.at(company); });
-                     return company_hashes;
-                   });
-
-    std::for_each(favorite_companies_hash.begin(), favorite_companies_hash.end(),
-                  [](auto& companies) { std::sort(companies.begin(), companies.end()); });
+    std::ranges::transform(favoriteCompanies, std::back_inserter(favorite_companies_hash),
+                           [&](const auto& companies)
+                           {
+                             auto company_hashes = std::vector<std::size_t>{};
+                             company_hashes.reserve(companies.size());
+                             std::ranges::transform(companies, std::back_inserter(company_hashes),
+                                                    [&](const auto& company) { return mapping.at(company); });
+                             std::ranges::sort(company_hashes);
+                             return company_hashes;
+                           });
 
     auto excluded_indices = std::vector<int>{};
     excluded_indices.reserve(favorite_companies_hash.size());
@@ -57,7 +54,7 @@ class Solution
         const auto& ci = favorite_companies_hash[i];
         const auto& cj = favorite_companies_hash[j];
 
-        if (std::includes(cbegin(cj), cend(cj), cbegin(ci), cend(ci)))
+        if (std::ranges::includes(cj, ci))
         {
           excluded_indices.push_back(i);
           break;
@@ -71,8 +68,7 @@ class Solution
     auto all_indices = std::vector<int>(favoriteCompanies.size());
     std::iota(begin(all_indices), end(all_indices), 0);
 
-    std::set_difference(begin(all_indices), end(all_indices), begin(excluded_indices), end(excluded_indices),
-                        std::back_inserter(diff));
+    std::ranges::set_difference(all_indices, excluded_indices, std::back_inserter(diff));
 
     return diff;
   }
