@@ -28,6 +28,7 @@ add_executable(2451_odd_string_difference 2451_odd_string_difference.cc)
 add_executable(2981_longest_special_substring 2981_longest_special_substring.cc)
 
 add_executable(custom custom.cc)
+add_executable(circular_queue circular_queue.cc)
 
 add_custom_target(run)
 add_dependencies(run
