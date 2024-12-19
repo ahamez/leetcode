@@ -18,8 +18,7 @@ class Solution
       auto operator()(const std::vector<int>& v) const noexcept
       {
         return std::accumulate(v.begin(), v.end(), 0,
-                               [](const std::size_t prev, const int curr)
-                               { return prev ^ (std::hash<int>{}(curr) + 0x9e3779b9 + (prev << 6) + (prev >> 2)); });
+                               [](const auto prev, const auto curr) { return prev ^ std::hash<int>{}(curr); });
       }
     };
 
