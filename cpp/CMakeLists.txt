@@ -18,6 +18,7 @@ add_executable(125_valid_palindrome 125_valid_palindrome.cc)
 add_executable(155_min_stack 155_min_stack.cc)
 add_executable(160_linked_lists_intersections 160_linked_lists_intersections.cc)
 add_executable(211_word_data_structure 211_word_data_structure.cc)
+add_executable(242_valid_anagram 242_valid_anagram.cc)
 add_executable(288_move_zeroes 288_move_zeroes.cc)
 add_executable(322_coin_change 322_coin_change.cc)
 add_executable(408_valid_word_abbreviation 408_valid_word_abbreviation.cc)
@@ -44,6 +45,7 @@ add_dependencies(run
                 155_min_stack
                 160_linked_lists_intersections
                 211_word_data_structure
+                242_valid_anagram
                 288_move_zeroes
                 322_coin_change
                 408_valid_word_abbreviation
@@ -63,6 +65,7 @@ add_custom_command(TARGET run POST_BUILD
                    COMMAND 155_min_stack
                    COMMAND 160_linked_lists_intersections
                    COMMAND 211_word_data_structure
+                   COMMAND 242_valid_anagram
                    COMMAND 288_move_zeroes
                    COMMAND 322_coin_change
                    COMMAND 408_valid_word_abbreviation
