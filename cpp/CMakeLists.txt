@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.20)
 
 project(LeetCode VERSION 1.0 LANGUAGES CXX)
 
+find_package(Boost NO_MODULE)
+include_directories(${Boost_INCLUDE_DIRS})
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -29,6 +32,8 @@ add_executable(2981_longest_special_substring 2981_longest_special_substring.cc)
 
 add_executable(custom custom.cc)
 add_executable(circular_queue circular_queue.cc)
+add_executable(logs logs.cc)
+target_include_directories(logs PRIVATE ${Boost_INCLUDE_DIRS})
 
 add_custom_target(run)
 add_dependencies(run
