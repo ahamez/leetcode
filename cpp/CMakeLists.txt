@@ -14,6 +14,7 @@ add_compile_options(-Wall -Wextra -Wpedantic -Wunused -Werror)
 
 add_executable(2_add_two_numbers 2_add_two_numbers.cc)
 add_executable(3_longest_substring_without_repeating_characters 3_longest_substring_without_repeating_characters.cc)
+add_executable(125_valid_palindrome 125_valid_palindrome.cc)
 add_executable(155_min_stack 155_min_stack.cc)
 add_executable(160_linked_lists_intersections 160_linked_lists_intersections.cc)
 add_executable(211_word_data_structure 211_word_data_structure.cc)
@@ -39,6 +40,7 @@ add_custom_target(run)
 add_dependencies(run
   2_add_two_numbers
                 3_longest_substring_without_repeating_characters
+                125_valid_palindrome
                 155_min_stack
                 160_linked_lists_intersections
                 211_word_data_structure
@@ -57,6 +59,7 @@ add_dependencies(run
 add_custom_command(TARGET run POST_BUILD
                    COMMAND 2_add_two_numbers
                    COMMAND 3_longest_substring_without_repeating_characters
+                   COMMAND 125_valid_palindrome
                    COMMAND 155_min_stack
                    COMMAND 160_linked_lists_intersections
                    COMMAND 211_word_data_structure
