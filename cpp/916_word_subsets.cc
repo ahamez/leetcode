@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/word-subsets
+
 #include <algorithm>
 #include <array>
 #include <cassert>

@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/merge-strings-alternately
+
 #include <algorithm>
 #include <cassert>
 #include <iterator>
