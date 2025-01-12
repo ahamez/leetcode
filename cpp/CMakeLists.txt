@@ -14,6 +14,7 @@ add_compile_options(-Wall -Wextra -Wpedantic -Wunused -Werror)
 
 add_executable(2_add_two_numbers 2_add_two_numbers.cc)
 add_executable(3_longest_substring_without_repeating_characters 3_longest_substring_without_repeating_characters.cc)
+add_executable(17_phone_number_letter_combinations 17_phone_number_letter_combinations.cc)
 add_executable(125_valid_palindrome 125_valid_palindrome.cc)
 add_executable(155_min_stack 155_min_stack.cc)
 add_executable(160_linked_lists_intersections 160_linked_lists_intersections.cc)
