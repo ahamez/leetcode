@@ -10,31 +10,45 @@ class Solution
  public:
   bool isPalindrome(std::string s)
   {
-    auto s_prime = std::string{};
-    s_prime.reserve(s.size());
-
-    for (auto c : s)
+    // In-place modification of s to keep only alphanumeric characters.
+    auto write_position = begin(s);
+    for (const auto c : s)
     {
       if (std::isalnum(c))
       {
-        s_prime.push_back(std::tolower(c));
+        *write_position = std::tolower(c);
+        ++write_position;
       }
     }
+    s.erase(write_position, end(s));
 
-    auto head = cbegin(s_prime);
-    auto tail = crbegin(s_prime);
+    return std::equal(cbegin(s), cbegin(s) + s.size() / 2, std::crbegin(s));
 
-    while (head != cend(s_prime))
-    {
-      if (*head != *tail)
-      {
-        return false;
-      }
-      ++head;
-      ++tail;
-    }
+    // Manual version.
+    //
+    // auto s_prime = std::string{};
+    // s_prime.reserve(s.size());
+    //
+    // for (auto c : s)
+    // {
+    //   if (std::isalnum(c))
+    //   {
+    //     s_prime.push_back(std::tolower(c));
+    //   }
+    // }
+    //
+    // auto head = cbegin(s_prime);
+    // auto tail = crbegin(s_prime);
 
-    return true;
+    // while (head != cend(s_prime))
+    // {
+    //   if (*head != *tail)
+    //   {
+    //     return false;
+    //   }
+    //   ++head;
+    //   ++tail;
+    // }
   }
 };
 
